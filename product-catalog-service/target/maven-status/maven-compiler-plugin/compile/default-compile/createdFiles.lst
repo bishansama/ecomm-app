@@ -1,0 +1,6 @@
+com/ecommapp/productcatalogservice/ProductCatalogServiceApplication.class
+com/ecommapp/productcatalogservice/controller/ProductController.class
+com/ecommapp/productcatalogservice/model/ProductResponse.class
+com/ecommapp/productcatalogservice/model/Product.class
+com/ecommapp/productcatalogservice/service/ProductService.class
+com/ecommapp/productcatalogservice/model/ProductRequest.class

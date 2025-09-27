@@ -1,0 +1,17 @@
+server:
+  port: 8889
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: shopping-cart-service
+
+# OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  packages-to-scan: com.ecommapp.shoppingcartservice.controller
