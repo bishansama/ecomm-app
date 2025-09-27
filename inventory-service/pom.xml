@@ -9,10 +9,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <artifactId>order-service</artifactId>
+    <artifactId>inventory-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order-service</name>
-    <description>Order Service for E-Commerce Application</description>
+    <name>inventory-service</name>
+    <description>Inventory Service for E-Commerce Application</description>
     
     <dependencies>
         <dependency>
