@@ -3,7 +3,7 @@ package com.ecommapp.shoppingcartservice.controller;
 import com.ecommapp.shoppingcartservice.model.AddToCartRequest;
 import com.ecommapp.shoppingcartservice.model.CartResponse;
 import com.ecommapp.shoppingcartservice.model.RemoveFromCartRequest;
-import com.ecommapp.shoppingcartservice.service.ShoppingCartService;
+import com.ecommapp.shoppingcartservice.service.IShoppingCartService;
 import com.ecommapp.shoppingcartservice.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Shopping Cart API", description = "API for managing shopping cart")
 public class ShoppingCartController {
 
-    private final ShoppingCartService shoppingCartService;
+    private final IShoppingCartService shoppingCartService;
     
-    public ShoppingCartController(ShoppingCartService shoppingCartService) {
+    public ShoppingCartController(IShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
     }
 

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-service-config-test
+  namespace: ecomm-test
+data:
+  SERVER_PORT: "8083"
+  SPRING_APPLICATION_NAME: "inventory-service"
+  SPRING_PROFILES_ACTIVE: "test"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOG_LEVEL: "INFO"
+  # Test environment specific configurations
+  INVENTORY_DB_URL: "jdbc:h2:mem:inventory-test"
+  INVENTORY_DB_USERNAME: "test_user"
+  INVENTORY_DB_PASSWORD: "test_password"
+  STOCK_THRESHOLD_WARNING: "5"
+  ENABLE_STOCK_ALERTS: "true"

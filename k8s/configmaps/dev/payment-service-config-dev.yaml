@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-service-config-dev
+  namespace: ecomm-dev
+data:
+  SERVER_PORT: "8891"
+  SPRING_APPLICATION_NAME: "payment-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOG_LEVEL: "DEBUG"
+  # Development environment specific configurations
+  PAYMENT_GATEWAY_URL: "https://dev-payment-gateway.example.com"
+  PAYMENT_TIMEOUT: "30000"
+  RETRY_ATTEMPTS: "3"
+  ENABLE_MOCK_PAYMENTS: "true"

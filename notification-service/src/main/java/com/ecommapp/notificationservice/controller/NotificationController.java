@@ -2,7 +2,7 @@ package com.ecommapp.notificationservice.controller;
 
 import com.ecommapp.notificationservice.model.NotificationRequest;
 import com.ecommapp.notificationservice.model.NotificationResponse;
-import com.ecommapp.notificationservice.service.NotificationService;
+import com.ecommapp.notificationservice.service.INotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Notification Management", description = "APIs for managing notifications")
 public class NotificationController {
     
-    private final NotificationService notificationService;
+    private final INotificationService notificationService;
     
-    public NotificationController(NotificationService notificationService) {
+    public NotificationController(INotificationService notificationService) {
         this.notificationService = notificationService;
     }
     

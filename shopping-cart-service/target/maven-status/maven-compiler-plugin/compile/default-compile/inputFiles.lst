@@ -1,6 +1,7 @@
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/exception/GlobalExceptionHandler.java
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/model/CartResponse.java
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/model/RemoveFromCartRequest.java
+/Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/service/IShoppingCartService.java
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/controller/ShoppingCartController.java
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/model/AddToCartRequest.java
 /Users/shreyapaul/workspace/Cursor-Projects/ecomm-app/ecomm-app/shopping-cart-service/src/main/java/com/ecommapp/shoppingcartservice/service/ShoppingCartService.java

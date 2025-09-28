@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fulfillment-service-config-dev
+  namespace: dev
+data:
+  SERVER_PORT: "8085"
+  SPRING_APPLICATION_NAME: "fulfillment-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOGGING_LEVEL_FULFILLMENT: "DEBUG"
+  LOGGING_LEVEL_SPRING: "INFO"
+  LOGGING_LEVEL_HIBERNATE: "DEBUG"
+  LOGGING_LEVEL_ROOT: "INFO"
+  MANAGEMENT_ENDPOINTS_INCLUDE: "health,info,metrics,prometheus"
+  MANAGEMENT_HEALTH_SHOW_DETAILS: "always"

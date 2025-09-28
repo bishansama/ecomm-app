@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shopping-cart-service-config-prod
+  namespace: ecomm-app
+  labels:
+    app: shopping-cart-service
+    environment: prod
+data:
+  SERVER_PORT: "8885"
+  SPRING_APPLICATION_NAME: "shopping-cart-service"
+  SPRING_PROFILES_ACTIVE: "prod"
+  LOG_LEVEL: "WARN"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,metrics,prometheus"
+  CART_SESSION_TIMEOUT: "3600"
+  ENABLE_CART_PERSISTENCE: "true"
+  MAX_CART_ITEMS: "100"
+  CART_CLEANUP_INTERVAL: "300"
+  ENABLE_CART_ANALYTICS: "true"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8885}
+      compression:
+        enabled: true
+      http2:
+        enabled: true
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:shopping-cart-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:prod}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:WARN}
+        com.ecommapp.shoppingcartservice: INFO
+        org.springframework: WARN
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+      packages-to-scan: com.ecommapp.shoppingcartservice.controller
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,metrics}
+      endpoint:
+        health:
+          show-details: when-authorized
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+    
+    # Shopping Cart specific configurations
+    cart:
+      session:
+        timeout: ${CART_SESSION_TIMEOUT:3600}
+      persistence:
+        enabled: ${ENABLE_CART_PERSISTENCE:true}
+      limits:
+        max-items: ${MAX_CART_ITEMS:100}
+      cleanup:
+        interval: ${CART_CLEANUP_INTERVAL:300}
+      analytics:
+        enabled: ${ENABLE_CART_ANALYTICS:true}

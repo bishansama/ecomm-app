@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shopping-cart-service-config-dev
+  namespace: ecomm-app
+  labels:
+    app: shopping-cart-service
+    environment: dev
+data:
+  SERVER_PORT: "8885"
+  SPRING_APPLICATION_NAME: "shopping-cart-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  LOG_LEVEL: "DEBUG"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+  CART_SESSION_TIMEOUT: "1800"
+  ENABLE_CART_PERSISTENCE: "true"
+  MAX_CART_ITEMS: "50"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8885}
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:shopping-cart-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:DEBUG}
+        com.ecommapp.shoppingcartservice: DEBUG
+        org.springframework: INFO
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+      packages-to-scan: com.ecommapp.shoppingcartservice.controller
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,metrics}
+      endpoint:
+        health:
+          show-details: always
+    
+    # Shopping Cart specific configurations
+    cart:
+      session:
+        timeout: ${CART_SESSION_TIMEOUT:1800}
+      persistence:
+        enabled: ${ENABLE_CART_PERSISTENCE:true}
+      limits:
+        max-items: ${MAX_CART_ITEMS:50}

@@ -3,7 +3,7 @@ package com.ecommapp.productcatalogservice.controller;
 import com.ecommapp.productcatalogservice.model.Product;
 import com.ecommapp.productcatalogservice.model.ProductRequest;
 import com.ecommapp.productcatalogservice.model.ProductResponse;
-import com.ecommapp.productcatalogservice.service.ProductService;
+import com.ecommapp.productcatalogservice.service.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,9 +23,9 @@ import java.util.List;
 @Tag(name = "Product Catalog API", description = "API for managing product catalog")
 public class ProductController {
 
-    private final ProductService productService;
+    private final IProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(IProductService productService) {
         this.productService = productService;
     }
 

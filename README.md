@@ -6,7 +6,8 @@ A comprehensive microservices-based e-commerce application built with Spring Boo
 
 This application follows a microservices architecture with the following services:
 
-- **Order Service** (Port: 8889) - Handles order placement and management
+- **Order Service** (Port: 8080) - Handles order placement and management, integrated with fulfillment service
+- **Fulfillment Service** (Port: 8081) - Orchestrates order fulfillment, delivery, and payment processing
 - **Inventory Service** (Port: 8888) - Manages product inventory
 - **User Service** (Port: 8887) - User authentication and management
 - **Product Catalog Service** (Port: 8886) - Product information and catalog
@@ -17,10 +18,13 @@ This application follows a microservices architecture with the following service
 ## Features
 
 - **Microservices Architecture**: Independent, scalable services
+- **Service Integration**: Order service integrated with fulfillment service for seamless order processing
+- **Asynchronous Processing**: Non-blocking order fulfillment using reactive programming
 - **RESTful APIs**: Well-designed REST endpoints for each service
 - **OpenAPI Documentation**: Swagger UI for all services
 - **Exception Handling**: Global exception handling across services
 - **Docker Support**: Containerization for easy deployment
+- **Kubernetes Ready**: Complete K8s configurations for dev, test, and prod environments
 - **Maven Multi-Module**: Centralized dependency management
 - **Validation**: Request validation using Jakarta Bean Validation
 
@@ -28,9 +32,11 @@ This application follows a microservices architecture with the following service
 
 - **Java 21**
 - **Spring Boot 3.5.5**
+- **Spring WebFlux** (Reactive programming for order-fulfillment integration)
 - **Maven** (Multi-module project)
 - **OpenAPI/Swagger** (API Documentation)
 - **Docker** (Containerization)
+- **Kubernetes** (Container orchestration with environment-specific configs)
 - **Lombok** (Code generation)
 
 ## Getting Started
@@ -46,14 +52,21 @@ This application follows a microservices architecture with the following service
 #### Using Maven Wrapper
 
 ```bash
-# Order Service
-./order-service/mvnw spring-boot:run -pl order-service
+# Order Service (integrated with fulfillment)
+cd order-service
+./mvnw spring-boot:run
+
+# Fulfillment Service
+cd fulfillment-service
+./mvnw spring-boot:run
 
 # Notification Service
-./order-service/mvnw spring-boot:run -pl notification-service
+cd notification-service
+./mvnw spring-boot:run
 
 # Payment Service
-./order-service/mvnw spring-boot:run -pl payment-service
+cd payment-service
+./mvnw spring-boot:run
 
 # Other services...
 ```
@@ -71,14 +84,15 @@ docker run -p <port>:<port> <service-name>
 
 ```bash
 # From the root directory
-./order-service/mvnw clean compile
+mvn clean compile
 ```
 
 ## API Documentation
 
 Each service provides Swagger UI documentation:
 
-- **Order Service**: http://localhost:8889/swagger-ui/index.html
+- **Order Service**: http://localhost:8080/swagger-ui/index.html
+- **Fulfillment Service**: http://localhost:8081/swagger-ui/index.html
 - **Inventory Service**: http://localhost:8888/swagger-ui/index.html
 - **User Service**: http://localhost:8887/swagger-ui/index.html
 - **Product Catalog Service**: http://localhost:8886/swagger-ui/index.html
@@ -89,8 +103,15 @@ Each service provides Swagger UI documentation:
 ## Key API Endpoints
 
 ### Order Service
-- `POST /api/orders` - Place a new order
+- `POST /api/orders` - Place a new order (integrates with fulfillment service)
 - `GET /api/orders/health` - Health check
+
+### Fulfillment Service
+- `POST /api/fulfillment/validate-order` - Validate order details
+- `POST /api/fulfillment/initiate-delivery` - Initiate delivery process
+- `POST /api/fulfillment/capture-payment` - Capture payment for order
+- `POST /api/fulfillment/generate-shipping-label` - Generate shipping label
+- `GET /api/fulfillment/health` - Health check
 
 ### Notification Service
 - `POST /api/notifications/send` - Send notifications
@@ -116,6 +137,10 @@ ecomm-app/
 │   ├── src/main/java/com/ecommapp/orderservice/
 │   ├── pom.xml
 │   └── Dockerfile
+├── fulfillment-service/
+│   ├── src/main/java/com/ecommapp/fulfillmentservice/
+│   ├── pom.xml
+│   └── Dockerfile
 ├── inventory-service/
 │   ├── src/main/java/com/ecommapp/inventoryservice/
 │   ├── pom.xml
@@ -135,14 +160,50 @@ ecomm-app/
 ├── notification-service/
 │   ├── src/main/java/com/ecommapp/notificationservice/
 │   └── pom.xml
-└── payment-service/
-    ├── src/main/java/com/ecommapp/paymentservice/
-    └── pom.xml
+├── payment-service/
+│   ├── src/main/java/com/ecommapp/paymentservice/
+│   └── pom.xml
+└── k8s/
+    ├── configmaps/ (Environment-specific configurations)
+    │   ├── dev/
+    │   ├── test/
+    │   └── prod/
+    ├── deployments/
+    ├── services/
+    └── environments/
 ```
 
 ## Service Communication
 
-Services are designed to communicate with each other through REST APIs. Each service exposes health check endpoints for monitoring and can be integrated with service discovery and load balancing solutions.
+Services communicate through REST APIs with the following integration patterns:
+
+- **Order-Fulfillment Integration**: Order service uses reactive WebClient to communicate asynchronously with fulfillment service for order validation, delivery initiation, and status updates
+- **Health Monitoring**: Each service exposes health check endpoints for monitoring
+- **Service Discovery Ready**: Services can be integrated with service discovery and load balancing solutions
+- **Environment Configuration**: Kubernetes ConfigMaps provide environment-specific configurations for dev, test, and production deployments
+
+## Deployment
+
+### Kubernetes Deployment
+
+The application includes complete Kubernetes configurations:
+
+```bash
+# Deploy to development environment
+kubectl apply -f k8s/configmaps/dev/
+kubectl apply -f k8s/deployments/
+kubectl apply -f k8s/services/
+
+# Deploy to test environment
+kubectl apply -f k8s/configmaps/test/
+kubectl apply -f k8s/deployments/
+kubectl apply -f k8s/services/
+
+# Deploy to production environment
+kubectl apply -f k8s/configmaps/prod/
+kubectl apply -f k8s/deployments/
+kubectl apply -f k8s/services/
+```
 
 ## Development
 
@@ -159,5 +220,18 @@ Services are designed to communicate with each other through REST APIs. Each ser
 Each service includes comprehensive testing capabilities. Run tests using:
 
 ```bash
-./order-service/mvnw test -pl <service-name>
+cd <service-name>
+./mvnw test
 ```
+
+## Integration Status
+
+✅ **Completed Integrations:**
+- Order Service ↔ Fulfillment Service: Fully integrated with reactive communication
+- Environment Configurations: Complete ConfigMaps for all services across dev/test/prod environments
+- Kubernetes Deployment: Ready for container orchestration
+
+🔄 **Future Integration Opportunities:**
+- Payment Service ↔ Fulfillment Service: Payment capture integration
+- Inventory Service ↔ Fulfillment Service: Stock validation integration
+- Notification Service: Event-driven notifications for order status updates

@@ -3,6 +3,7 @@ package com.ecommapp.productcatalogservice.service;
 import com.ecommapp.productcatalogservice.model.Product;
 import com.ecommapp.productcatalogservice.model.ProductRequest;
 import com.ecommapp.productcatalogservice.model.ProductResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductService {
+@Slf4j
+public class ProductService implements IProductService {
     
     // In-memory storage for demonstration (in real application, this would be a database)
     private final List<Product> productCatalog = new ArrayList<>();

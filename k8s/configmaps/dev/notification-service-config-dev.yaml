@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config-dev
+  namespace: ecomm-app
+  labels:
+    app: notification-service
+    environment: dev
+data:
+  SERVER_PORT: "8890"
+  SPRING_APPLICATION_NAME: "notification-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  LOG_LEVEL: "DEBUG"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+  EMAIL_ENABLED: "true"
+  SMS_ENABLED: "true"
+  PUSH_ENABLED: "true"
+  IN_APP_ENABLED: "true"
+  NOTIFICATION_RETRY_ATTEMPTS: "3"
+  NOTIFICATION_TIMEOUT: "30"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8890}
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:notification-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:DEBUG}
+        com.ecommapp.notificationservice: DEBUG
+        org.springframework: INFO
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+      packages-to-scan: com.ecommapp.notificationservice.controller
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,metrics}
+      endpoint:
+        health:
+          show-details: always
+    
+    # Notification specific configurations
+    notification:
+      channels:
+        email:
+          enabled: ${EMAIL_ENABLED:true}
+        sms:
+          enabled: ${SMS_ENABLED:true}
+        push:
+          enabled: ${PUSH_ENABLED:true}
+        in-app:
+          enabled: ${IN_APP_ENABLED:true}
+      retry:
+        attempts: ${NOTIFICATION_RETRY_ATTEMPTS:3}
+      timeout:
+        seconds: ${NOTIFICATION_TIMEOUT:30}

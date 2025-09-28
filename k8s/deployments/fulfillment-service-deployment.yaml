@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fulfillment-service
+  namespace: default
+  labels:
+    app: fulfillment-service
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fulfillment-service
+  template:
+    metadata:
+      labels:
+        app: fulfillment-service
+        version: v1
+    spec:
+      containers:
+      - name: fulfillment-service
+        image: fulfillment-service:latest
+        ports:
+        - containerPort: 8085
+          name: http
+        env:
+        - name: SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: SERVER_PORT
+        - name: SPRING_APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: SPRING_APPLICATION_NAME
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: SPRING_PROFILES_ACTIVE
+        - name: SPRINGDOC_API_DOCS_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: SPRINGDOC_API_DOCS_PATH
+        - name: SPRINGDOC_SWAGGER_UI_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: SPRINGDOC_SWAGGER_UI_PATH
+        - name: LOGGING_LEVEL_FULFILLMENT
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: LOGGING_LEVEL_FULFILLMENT
+        - name: LOGGING_LEVEL_SPRING
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: LOGGING_LEVEL_SPRING
+        - name: LOGGING_LEVEL_HIBERNATE
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: LOGGING_LEVEL_HIBERNATE
+        - name: LOGGING_LEVEL_ROOT
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: LOGGING_LEVEL_ROOT
+        - name: MANAGEMENT_ENDPOINTS_INCLUDE
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: MANAGEMENT_ENDPOINTS_INCLUDE
+        - name: MANAGEMENT_HEALTH_SHOW_DETAILS
+          valueFrom:
+            configMapKeyRef:
+              name: fulfillment-service-config-dev
+              key: MANAGEMENT_HEALTH_SHOW_DETAILS
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

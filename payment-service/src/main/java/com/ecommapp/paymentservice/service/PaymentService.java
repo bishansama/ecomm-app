@@ -3,13 +3,15 @@ package com.ecommapp.paymentservice.service;
 import com.ecommapp.paymentservice.model.PaymentRequest;
 import com.ecommapp.paymentservice.model.PaymentResponse;
 import com.ecommapp.paymentservice.model.PaymentStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-public class PaymentService {
+@Slf4j
+public class PaymentService implements IPaymentService {
     
     public PaymentResponse processPayment(PaymentRequest request) {
         // Generate unique payment ID

@@ -1,1 +1,10 @@
+com/ecommapp/orderservice/exception/GlobalExceptionHandler.class
+com/ecommapp/orderservice/client/FulfillmentServiceClient.class
+com/ecommapp/orderservice/model/OrderRequest.class
+com/ecommapp/orderservice/controller/OrderController.class
+com/ecommapp/orderservice/config/WebClientConfig.class
+com/ecommapp/orderservice/model/OrderResponse.class
+com/ecommapp/orderservice/service/OrderService.class
+com/ecommapp/orderservice/service/IOrderService.class
+com/ecommapp/orderservice/exception/ErrorResponse.class
 com/ecommapp/orderservice/OrderServiceApplication.class

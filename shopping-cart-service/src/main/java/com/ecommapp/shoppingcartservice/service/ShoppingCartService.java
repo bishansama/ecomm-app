@@ -4,6 +4,7 @@ import com.ecommapp.shoppingcartservice.model.AddToCartRequest;
 import com.ecommapp.shoppingcartservice.model.CartItem;
 import com.ecommapp.shoppingcartservice.model.CartResponse;
 import com.ecommapp.shoppingcartservice.model.RemoveFromCartRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,9 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class ShoppingCartService {
-
-    // In-memory storage for demonstration purposes
+@Slf4j
+public class ShoppingCartService implements IShoppingCartService {    // In-memory storage for demonstration purposes
     // In a real application, this would be replaced with a database
     private final Map<String, Map<String, CartItem>> userCarts = new ConcurrentHashMap<>();
 

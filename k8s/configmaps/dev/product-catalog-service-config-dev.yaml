@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-catalog-service-config-dev
+  namespace: ecomm-app
+  labels:
+    app: product-catalog-service
+    environment: dev
+data:
+  SERVER_PORT: "8082"
+  SPRING_APPLICATION_NAME: "product-catalog-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  LOG_LEVEL: "DEBUG"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8082}
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:product-catalog-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:DEBUG}
+        com.ecommerce: DEBUG
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,metrics,prometheus}

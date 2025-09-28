@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fulfillment-service-config
+  namespace: default
+data:
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8085}
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:fulfillment-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:default}
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    
+    logging:
+      level:
+        com.ecommapp.fulfillmentservice: ${LOGGING_LEVEL_FULFILLMENT:INFO}
+        org.springframework: ${LOGGING_LEVEL_SPRING:INFO}
+        org.hibernate: ${LOGGING_LEVEL_HIBERNATE:WARN}
+        root: ${LOGGING_LEVEL_ROOT:INFO}
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_INCLUDE:health,info}
+      endpoint:
+        health:
+          show-details: ${MANAGEMENT_HEALTH_SHOW_DETAILS:when-authorized}

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fulfillment-service-config-test
+  namespace: test
+data:
+  SERVER_PORT: "8085"
+  SPRING_APPLICATION_NAME: "fulfillment-service"
+  SPRING_PROFILES_ACTIVE: "test"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOGGING_LEVEL_FULFILLMENT: "INFO"
+  LOGGING_LEVEL_SPRING: "INFO"
+  LOGGING_LEVEL_HIBERNATE: "WARN"
+  LOGGING_LEVEL_ROOT: "INFO"
+  MANAGEMENT_ENDPOINTS_INCLUDE: "health,info,metrics"
+  MANAGEMENT_HEALTH_SHOW_DETAILS: "when-authorized"

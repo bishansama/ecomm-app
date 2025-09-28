@@ -1,12 +1,20 @@
 package com.ecommapp.inventoryservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class InventoryResponse {
     private String inventoryId;
+
+    public InventoryResponse() {
+    }
+
+    public InventoryResponse(String inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public String getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(String inventoryId) {
+        this.inventoryId = inventoryId;
+    }
 }

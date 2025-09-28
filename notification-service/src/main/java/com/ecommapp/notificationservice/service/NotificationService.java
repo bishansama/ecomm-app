@@ -3,14 +3,14 @@ package com.ecommapp.notificationservice.service;
 import com.ecommapp.notificationservice.model.NotificationRequest;
 import com.ecommapp.notificationservice.model.NotificationResponse;
 import com.ecommapp.notificationservice.model.NotificationType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 @Service
-public class NotificationService {
-    
+@Slf4j
+public class NotificationService implements INotificationService {    
     public NotificationResponse sendNotification(NotificationRequest request) {
         // Generate unique notification ID
         String notificationId = UUID.randomUUID().toString();

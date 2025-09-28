@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config-test
+  namespace: ecomm-app
+  labels:
+    app: user-service
+    environment: test
+data:
+  SERVER_PORT: "8081"
+  SPRING_APPLICATION_NAME: "user-service"
+  SPRING_PROFILES_ACTIVE: "test"
+  LOG_LEVEL: "INFO"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8081}
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:user-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:test}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:INFO}
+        com.ecommerce: INFO
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,metrics}

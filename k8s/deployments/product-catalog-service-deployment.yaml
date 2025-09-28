@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-catalog-service
+  namespace: ecomm-app
+  labels:
+    app: product-catalog-service
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-catalog-service
+  template:
+    metadata:
+      labels:
+        app: product-catalog-service
+        version: v1
+    spec:
+      containers:
+      - name: product-catalog-service
+        image: product-catalog-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082
+          name: http
+        env:
+        - name: SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: SERVER_PORT
+        - name: SPRING_APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: SPRING_APPLICATION_NAME
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: SPRING_PROFILES_ACTIVE
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: LOG_LEVEL
+        - name: SPRINGDOC_API_DOCS_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: SPRINGDOC_API_DOCS_PATH
+        - name: SPRINGDOC_SWAGGER_UI_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: product-catalog-service-config
+              key: SPRINGDOC_SWAGGER_UI_PATH
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: product-catalog-service-config
+          items:
+          - key: application.yml
+            path: application.yml
+      restartPolicy: Always

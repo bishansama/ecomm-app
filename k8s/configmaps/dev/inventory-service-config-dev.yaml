@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-service-config-dev
+  namespace: ecomm-dev
+data:
+  SERVER_PORT: "8083"
+  SPRING_APPLICATION_NAME: "inventory-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOG_LEVEL: "DEBUG"
+  # Development environment specific configurations
+  INVENTORY_DB_URL: "jdbc:h2:mem:inventory-dev"
+  INVENTORY_DB_USERNAME: "dev_user"
+  INVENTORY_DB_PASSWORD: "dev_password"
+  STOCK_THRESHOLD_WARNING: "10"
+  ENABLE_STOCK_ALERTS: "true"

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-service-config-prod
+  namespace: ecomm-prod
+data:
+  SERVER_PORT: "8083"
+  SPRING_APPLICATION_NAME: "inventory-service"
+  SPRING_PROFILES_ACTIVE: "prod"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  LOG_LEVEL: "WARN"
+  # Production environment specific configurations
+  INVENTORY_DB_URL: "jdbc:postgresql://inventory-db:5432/inventory"
+  INVENTORY_DB_USERNAME: "inventory_user"
+  INVENTORY_DB_PASSWORD: "${INVENTORY_DB_PASSWORD}"
+  STOCK_THRESHOLD_WARNING: "20"
+  ENABLE_STOCK_ALERTS: "true"

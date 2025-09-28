@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: ecomm-app
+  labels:
+    app: payment-service
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+        version: v1
+    spec:
+      containers:
+      - name: payment-service
+        image: payment-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8891
+          name: http
+        env:
+        - name: SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: SERVER_PORT
+        - name: SPRING_APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: SPRING_APPLICATION_NAME
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: SPRING_PROFILES_ACTIVE
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: LOG_LEVEL
+        - name: SPRINGDOC_API_DOCS_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: SPRINGDOC_API_DOCS_PATH
+        - name: SPRINGDOC_SWAGGER_UI_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: payment-service-config
+              key: SPRINGDOC_SWAGGER_UI_PATH
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8891
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8891
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: payment-service-config
+          items:
+          - key: application.yml
+            path: application.yml
+      restartPolicy: Always

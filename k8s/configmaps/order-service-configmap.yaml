@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: ecomm-app
+  labels:
+    app: order-service
+    component: config
+data:
+  # Application Configuration
+  application.yml: |
+    server:
+      port: 8080
+    
+    spring:
+      application:
+        name: order-service
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+    # OpenAPI Configuration
+    springdoc:
+      api-docs:
+        path: /api-docs
+      swagger-ui:
+        path: /swagger-ui.html
+      packages-to-scan: com.ecommapp.orderservice.controller
+    
+    # Logging Configuration
+    logging:
+      level:
+        com.ecommapp.orderservice: ${LOG_LEVEL:INFO}
+        org.springframework: WARN
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    
+    # Management endpoints
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics
+      endpoint:
+        health:
+          show-details: always
+  
+  # Environment Variables
+  SERVER_PORT: "8080"
+  SPRING_APPLICATION_NAME: "order-service"
+  SPRING_PROFILES_ACTIVE: "dev"
+  LOG_LEVEL: "INFO"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"

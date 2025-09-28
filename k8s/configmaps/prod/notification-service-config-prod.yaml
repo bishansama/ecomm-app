@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config-prod
+  namespace: ecomm-app
+  labels:
+    app: notification-service
+    environment: prod
+data:
+  SERVER_PORT: "8890"
+  SPRING_APPLICATION_NAME: "notification-service"
+  SPRING_PROFILES_ACTIVE: "prod"
+  LOG_LEVEL: "WARN"
+  SPRINGDOC_API_DOCS_PATH: "/api-docs"
+  SPRINGDOC_SWAGGER_UI_PATH: "/swagger-ui.html"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,metrics,prometheus"
+  EMAIL_ENABLED: "true"
+  SMS_ENABLED: "true"
+  PUSH_ENABLED: "true"
+  IN_APP_ENABLED: "true"
+  NOTIFICATION_RETRY_ATTEMPTS: "5"
+  NOTIFICATION_TIMEOUT: "60"
+  BATCH_SIZE: "100"
+  RATE_LIMIT_PER_MINUTE: "1000"
+  ENABLE_ANALYTICS: "true"
+  application.yml: |
+    server:
+      port: ${SERVER_PORT:8890}
+      compression:
+        enabled: true
+      http2:
+        enabled: true
+    
+    spring:
+      application:
+        name: ${SPRING_APPLICATION_NAME:notification-service}
+      profiles:
+        active: ${SPRING_PROFILES_ACTIVE:prod}
+    
+    logging:
+      level:
+        root: ${LOG_LEVEL:WARN}
+        com.ecommapp.notificationservice: INFO
+        org.springframework: WARN
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+    springdoc:
+      api-docs:
+        path: ${SPRINGDOC_API_DOCS_PATH:/api-docs}
+      swagger-ui:
+        path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+      packages-to-scan: com.ecommapp.notificationservice.controller
+    
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,metrics}
+      endpoint:
+        health:
+          show-details: when-authorized
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+    
+    # Notification specific configurations for production
+    notification:
+      channels:
+        email:
+          enabled: ${EMAIL_ENABLED:true}
+        sms:
+          enabled: ${SMS_ENABLED:true}
+        push:
+          enabled: ${PUSH_ENABLED:true}
+        in-app:
+          enabled: ${IN_APP_ENABLED:true}
+      retry:
+        attempts: ${NOTIFICATION_RETRY_ATTEMPTS:5}
+      timeout:
+        seconds: ${NOTIFICATION_TIMEOUT:60}
+      batch:
+        size: ${BATCH_SIZE:100}
+      rate-limit:
+        per-minute: ${RATE_LIMIT_PER_MINUTE:1000}
+      analytics:
+        enabled: ${ENABLE_ANALYTICS:true}

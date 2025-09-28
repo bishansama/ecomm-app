@@ -2,11 +2,10 @@ package com.ecommapp.userservice.controller;
 
 import com.ecommapp.userservice.model.UserRequest;
 import com.ecommapp.userservice.model.UserResponse;
-import com.ecommapp.userservice.service.UserService;
+import com.ecommapp.userservice.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "User API", description = "API for managing users")
-@AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
+
+    // Constructor
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     @Operation(summary = "Create a new user", description = "Creates a new user and returns a user ID")

@@ -2,7 +2,7 @@ package com.ecommapp.paymentservice.controller;
 
 import com.ecommapp.paymentservice.model.PaymentRequest;
 import com.ecommapp.paymentservice.model.PaymentResponse;
-import com.ecommapp.paymentservice.service.PaymentService;
+import com.ecommapp.paymentservice.service.IPaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Payment Management", description = "APIs for processing payments")
 public class PaymentController {
     
-    private final PaymentService paymentService;
+    private final IPaymentService paymentService;
     
-    public PaymentController(PaymentService paymentService) {
+    public PaymentController(IPaymentService paymentService) {
         this.paymentService = paymentService;
     }
     
